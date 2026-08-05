@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sannapureddy Manoj Reddy - BMW Portfolio</title>
+
+    <!-- Font Awesome Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            
+            /* BMW M-Sport Colors */
+            --m-cyan: #00a0e3;
+            --m-blue: #002663;
+            --m-red: #e52521;
+            --bmw-blue: #1c69d2;
+            --border-light: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Dynamic Section Management */
+        .page-section {
+            display: none;
+            padding: 60px 8%;
+            min-height: calc(100vh - 80px);
+            animation: fadeInContent 0.5s ease-in-out forwards;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BMW M Stripe Bar */
+        .m-stripe-bar {
+            display: inline-flex;
+            height: 12px;
+            width: 42px;
+            border-radius: 2px;
+            overflow: hidden;
+            transform: skewX(-20deg);
+            vertical-align: middle;
+        }
+
+        .m-stripe-bar span { flex: 1; height: 100%; }
+        .m-stripe-bar .stripe-cyan { background-color: var(--m-cyan); }
+        .m-stripe-bar .stripe-blue { background-color: var(--m-blue); }
+        .m-stripe-bar .stripe-red { background-color: var(--m-red); }
+
+        /* Header Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 1.2rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--m-blue);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--bmw-blue); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li { margin-left: 28px; }
+
+        nav ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover, nav ul li a.active-link {
+            color: var(--bmw-blue);
+        }
+
+        /* =================================================== */
+        /* SPORTY BMW M PERFORMANCE COUPE DRIFT OVERLAY       */
+        /* =================================================== */
+        #drift-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+            display: none;
+        }
+
+        .drift-car {
+            position: absolute;
+            top: 46%;
+            left: -340px;
+            width: 310px;
+            height: 70px;
+            pointer-events: none;
+        }
+
+        /* Aerodynamic Sport Body Frame */
+        .car-body {
+            position: relative;
+            width: 100%;
+            height: 48px;
+            margin-top: 18px;
+            background: linear-gradient(135deg, #02122c 0%, #1c69d2 80%, #00a0e3 100%);
+            border-radius: 8px 65px 10px 14px;
+            box-shadow: 0 10px 30px rgba(0, 38, 99, 0.45);
+            border-bottom: 4px solid var(--m-red);
+            transform: skewX(-24deg);
+        }
+
+        /* Carbon Fiber Rear Wing / Spoiler */
+        .car-spoiler {
+            position: absolute;
+            top: -16px;
+            left: -5px;
+            width: 38px;
+            height: 8px;
+            background: #0f172a;
+            border-radius: 4px 12px 2px 2px;
+            transform: rotate(-8deg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+        }
+        
+        .car-spoiler::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 10px;
+            width: 5px;
+            height: 8px;
+            background: #1e293b;
+        }
+
+        /* Fast Sloping Coupe Roofline */
+        .car-roof {
+            position: absolute;
+            top: -24px;
+            left: 70px;
+            width: 145px;
+            height: 28px;
+            background: linear-gradient(180deg, #00173d 0%, #002663 100%);
+            border-radius: 35px 50px 0 0;
+            transform: skewX(-5deg);
+        }
+
+        /* Front Hood & Kidney Grille Nose */
+        .car-hood {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 90px;
+            height: 28px;
+            background: #1c69d2;
+            border-radius: 0 55px 6px 0;
+        }
+
+        /* BMW Kidney Grille Contour  */
+        .kidney-grille {
+            position: absolute;
+            right: 2px;
+            top: 10px;
+            width: 16px;
+            height: 14px;
+            border: 2px solid #e2e8f0;
+            background: #020617;
+            border-radius: 5px;
+            z-index: 6;
+            box-shadow: -2px 0 0 #e2e8f0;
+        }
+
+        /* Front LED Laser Headlight Beam */
+        .car-headlight {
+            position: absolute;
+            right: 8px;
+            top: 4px;
+            width: 18px;
+            height: 6px;
+            background: #38bdf8;
+            border-radius: 4px;
+            box-shadow: 12px 0 15px #00a0e3, 20px 0 25px rgba(56, 189, 248, 0.8);
+            z-index: 6;
+        }
+
+        /* Front & Rear Tinted Windows */
+        .car-windshield {
+            position: absolute;
+            top: -19px;
+            right: 90px;
+            width: 45px;
+            height: 20px;
+            background: rgba(203, 213, 225, 0.85);
+            border-radius: 3px 18px 0 0;
+            transform: skewX(28deg);
+        }
+
+        .car-rear-window {
+            position: absolute;
+            top: -19px;
+            left: 80px;
+            width: 40px;
+            height: 20px;
+            background: rgba(148, 163, 184, 0.8);
+            border-radius: 16px 3px 0 0;
+            transform: skewX(-25deg);
+        }
+
+        /* Side M Performance Badge */
+        .m-badge {
+            position: absolute;
+            top: 14px;
+            left: 105px;
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            z-index: 5;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        /* Sports Rims & Brake Calipers */
+        .wheel {
+            position: absolute;
+            bottom: -6px;
+            width: 46px;
+            height: 46px;
+            background: radial-gradient(circle, #334155 30%, #0f172a 70%);
+            border: 4px solid #94a3b8;
+            border-radius: 50%;
+            /* Wheel rotation speed adjusted for slower car movement */
+            animation: spinWheel 0.3s linear infinite;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Silver Multi-Spoke Rim Detail */
+        .wheel::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 28px; height: 28px;
+            margin-top: -14px; margin-left: -14px;
+            border: 2px dashed #f1f5f9;
+            border-radius: 50%;
+        }
+
+        /* M Blue/Red Brake Caliper Accent */
+        .wheel::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 10px;
+            height: 12px;
+            background: var(--m-red);
+            border-radius: 3px;
+        }
+
+        .wheel.front { right: 30px; }
+        .wheel.back { left: 40px; }
+
+        @keyframes spinWheel {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Skid Line Banner Sweep */
+        .skid-wipe-banner {
+            position: absolute;
+            top: 51%;
+            left: -100%;
+            width: 100%;
+            height: 26px;
+            background: repeating-linear-gradient(90deg, #002663 0px, #002663 30px, transparent 30px, transparent 48px);
+            opacity: 0.22;
+            transform: skewX(-20deg);
+        }
+
+        /* Exhaust Smoke Stream */
+        .smoke-stream {
+            position: absolute;
+            top: 42%;
+            left: -380px;
+            width: 220px;
+            height: 110px;
+            background: radial-gradient(circle, rgba(186, 230, 253, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        /* SLOWER ANIMATION (Changed from 1.1s to 2.2s) */
+        .animating-drift .drift-car {
+            animation: carSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animating-drift .skid-wipe-banner {
+            animation: skidSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animating-drift .smoke-stream {
+            animation: smokeSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes carSweep {
+            0% { left: -360px; transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-1deg); }
+            100% { left: 110vw; transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes skidSweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes smokeSweep {
+            0% { left: -400px; opacity: 0.95; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.4); }
+            100% { left: 105vw; opacity: 0; transform: scale(2.2); }
+        }
+
+        /* Hero Styling */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: radial-gradient(circle at top, rgba(28, 105, 210, 0.06) 0%, rgba(248, 250, 252, 1) 70%);
+            border-radius: 20px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .hero h1 { font-size: 3.2rem; font-weight: 800; margin-bottom: 12px; }
+        .hero h2 { font-size: 1.4rem; color: var(--bmw-blue); margin-bottom: 20px; font-weight: 700; }
+        .hero p { max-width: 650px; margin: 0 auto 35px; color: var(--text-muted); font-size: 1.1rem; }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; }
+        .btn {
+            padding: 13px 32px;
+            background: var(--bmw-blue);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(28, 105, 210, 0.25);
+        }
+
+        .btn:hover { background: var(--m-blue); transform: translateY(-2px); }
+
+        .btn-outline {
+            background: #ffffff;
+            border: 2px solid var(--border-light);
+            color: var(--text-dark);
+        }
+
+        /* Clean Card Design */
+        .clean-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clean-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--m-cyan) 0%, var(--m-blue) 50%, var(--m-red) 100%);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title span { color: var(--bmw-blue); }
+
+        /* Grids */
+        .skills-grid, .projects-grid, .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .skill-card, .project-card, .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .skill-card i, .project-card i, .contact-card i {
+            font-size: 2.3rem;
+            color: var(--bmw-blue);
+            margin-bottom: 15px;
+        }
+
+        .skill-card:hover, .project-card:hover, .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--bmw-blue);
+        }
+
+        .personal-info {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            background: var(--bg-main);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .personal-info p strong { display: block; font-size: 0.85rem; text-transform: uppercase; }
+        .personal-info p span.value { color: var(--bmw-blue); font-weight: 700; font-size: 1.05rem; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #ffffff;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TV MATCH STYLE SPORTY BMW CAR DRIFT TRANSITION OVERLAY -->
+    <div id="drift-transition-overlay">
+        <div class="skid-wipe-banner"></div>
+        <div class="smoke-stream"></div>
+        <div class="drift-car">
+            <div class="car-spoiler"></div>
+            <div class="car-body">
+                <div class="car-hood"></div>
+                <div class="kidney-grille"></div>
+                <div class="car-headlight"></div>
+                <div class="car-roof"></div>
+                <div class="car-windshield"></div>
+                <div class="car-rear-window"></div>
+                <span class="m-badge">/// M</span>
+            </div>
+            <div class="wheel back"></div>
+            <div class="wheel front"></div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo-container" onclick="navigateToSection('home')">
+            <div class="m-stripe-bar">
+                <span class="stripe-cyan"></span>
+                <span class="stripe-blue"></span>
+                <span class="stripe-red"></span>
+            </div>
+            <div class="logo">Manoj <span>Reddy</span></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a onclick="navigateToSection('home')" id="nav-home" class="active-link">Home</a></li>
+                <li><a onclick="navigateToSection('about')" id="nav-about">About</a></li>
+                <li><a onclick="navigateToSection('skills')" id="nav-skills">Skills</a></li>
+                <li><a onclick="navigateToSection('projects')" id="nav-projects">Projects</a></li>
+                <li><a onclick="navigateToSection('education')" id="nav-education">Education</a></li>
+                <li><a onclick="navigateToSection('contact')" id="nav-contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- SECTION 1: HOME -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="hero-badge">
+                <div class="m-stripe-bar" style="height: 10px; width: 30px;">
+                    <span class="stripe-cyan"></span>
+                    <span class="stripe-blue"></span>
+                    <span class="stripe-red"></span>
+                </div>
+                <span>TARGET: BMW GROUP GERMANY</span>
+            </div>
+            <h1>Sannapureddy Manoj Reddy</h1>
+            <h2>Automotive Software & Hardware Testing Aspirant</h2>
+            <p>3rd-Year B.Tech CSE student combining HTML/CSS/JavaScript web dashboard skills with hands-on mechanical machine assembly, hardware troubleshooting, and active German learning.</p>
+            <div class="btn-group">
+                <a onclick="navigateToSection('contact')" class="btn">Contact Me</a>
+                <a onclick="navigateToSection('skills')" class="btn btn-outline">Explore Skills</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT -->
+    <section id="about" class="page-section">
+        <h2 class="section-title">
+            <div class="m-stripe-bar"><span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span></div>
+            About <span>Me</span>
+        </h2>
+        <div class="clean-card">
+            <p style="font-size: 1.05rem;">I am a <strong>3rd-Year B.Tech CSE Student</strong> focusing on <strong>Automotive Software Testing, Diagnostic Web Interfaces, and Hardware Quality Assurance</strong>. I hold practical expertise in <strong>assembling, disassembling, and fixing mechanical machine parts</strong> along with clean web frontend technologies (HTML, CSS, JS). My long-term goal is to work with <strong>BMW in Germany</strong> after completing B1 level German certification.</p>
+            
+            <div class="personal-info">
+                <div><p><strong>Full Name</strong></p><p><span class="value">Sannapureddy Manoj Reddy</span></p></div>
+                <div><p><strong>Date of Birth</strong></p><p><span class="value">October 27, 2006</span></p></div>
+                <div><p><strong>Calculated Age</strong></p><p><span class="value" id="my-age">--</span> Years</p></div>
+                <div><p><strong>Career Objective</strong></p><p><span class="value">Testing Engineer @ BMW Germany</span></p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SKILLS -->
+    <section id="skills" class="page-section">
+        <h2 class="section-title">
+            <div class="m-stripe-bar"><span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span></div>
+            Technical <span>Skills</span>
+        </h2>
+        <div class="skills-grid">
+            <div class="skill-card"><i class="fa-solid fa-code"></i><h3>HTML5 & CSS3</h3><p>Clean UI layout design & automotive dashboards</p></div>
+            <div class="skill-card"><i class="fa-brands fa-js"></i><h3>JavaScript (ES6+)</h3><p>Interactive DOM manipulation & web diagnostic logic</p></div>
+            <div class="skill-card"><i class="fa-solid fa-gears"></i><h3>Machine Assembly</h3><p>Disassembling, repairing, & fixing hardware components</p></div>
+            <div class="skill-card"><i class="fa-solid fa-wrench"></i><h3>Hardware Repair</h3><p>Practical fault diagnosis & mechanical troubleshooting</p></div>
+            <div class="skill-card"><i class="fa-solid fa-language"></i><h3>German Language</h3><p>Actively learning up to Goethe B1 standard</p></div>
+            <div class="skill-card"><i class="fa-solid fa-vial-circle-check"></i><h3>Web UI Testing</h3><p>Automated front-end testing & QA monitoring</p></div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PROJECTS -->
+    <section id="projects" class="page-section">
+        <h2 class="section-title">
+            <div class="m-stripe-bar"><span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span></div>
+            Practical <span>Projects</span>
+        </h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <h3>Machine Part Assembly & Repair</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Complete mechanical disassembly, identifying component faults, replacing elements, and testing reassembled machines.</p>
+            </div>
+            <div class="project-card" style="border: 2px dashed var(--border-light); background: transparent;">
+                <i class="fa-solid fa-laptop-code" style="color: var(--text-muted);"></i>
+                <h3>BMW Web Dashboard Simulator</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Upcoming project utilizing JS & CSS for real-time infotainment diagnostic simulation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: EDUCATION -->
+    <section id="education" class="page-section">
+        <h2 class="section-title">
+            <div class="m-stripe-bar"><span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span></div>
+            Educational <span>Background</span>
+        </h2>
+        <div class="clean-card" style="border-left: 6px solid var(--bmw-blue);">
+            <h3 style="font-size: 1.3rem;">Bachelor of Technology (B.Tech)</h3>
+            <h4 style="color: var(--bmw-blue); margin: 6px 0 12px 0;">Computer Science & Engineering — 3rd Year</h4>
+            <p style="color: var(--text-muted);">Combining computer science web tech with practical mechanical hardware repair skills, automated testing principles, and German language preparation.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: CONTACT -->
+    <section id="contact" class="page-section">
+        <h2 class="section-title">
+            <div class="m-stripe-bar"><span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span></div>
+            Get In <span>Touch</span>
+        </h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="fa-solid fa-envelope"></i>
+                <h3>Email</h3>
+                <p style="margin-top: 8px;"><a href="mailto:manojreddy798956@gmail.com" style="color: var(--text-dark); text-decoration: none; font-weight: 600;">manojreddy798956@gmail.com</a></p>
+            </div>
+            <div class="contact-card">
+                <i class="fa-solid fa-phone"></i>
+                <h3>Phone</h3>
+                <p style="margin-top: 8px;"><a href="tel:7989565034" style="color: var(--text-dark); text-decoration: none; font-weight: 600;">+91 7989565034</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="m-stripe-bar" style="height: 8px; width: 36px;">
+            <span class="stripe-cyan"></span><span class="stripe-blue"></span><span class="stripe-red"></span>
+        </div>
+        <p>&copy; 2026 Sannapureddy Manoj Reddy. All Rights Reserved.</p>
+    </footer>
+
+    <!-- INTERACTIVE BMW DRIFT TRANSITION SCRIPT -->
+    <script>
+        let isAnimating = false;
+
+        function navigateToSection(targetId) {
+            const currentActive = document.querySelector('.page-section.active');
+            if (currentActive && currentActive.id === targetId) return;
+            if (isAnimating) return;
+
+            isAnimating = true;
+            const overlay = document.getElementById('drift-transition-overlay');
+
+            // 1. Display transition overlay
+            overlay.style.display = 'block';
+            overlay.classList.add('animating-drift');
+
+            // 2. Mid-way through transition (1.1 seconds), swap the section page
+            setTimeout(() => {
+                // Hide all sections
+                document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+                
+                // Show target section
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Update active navbar styling
+                document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active-link'));
+                const activeNav = document.getElementById(`nav-${targetId}`);
+                if (activeNav) activeNav.classList.add('active-link');
+
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 1100);
+
+            // 3. Reset transition overlay after 2.2s total sweep time
+            setTimeout(() => {
+                overlay.classList.remove('animating-drift');
+                overlay.style.display = 'none';
+                isAnimating = false;
+            }, 2200);
+        }
+
+        // Calculate age dynamically
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const ageElement = document.getElementById("my-age");
+            if (ageElement) {
+                ageElement.innerText = calculateAge("2006-10-27");
+            }
+        });
+    </script>
+</body>
+</html>
